@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="author" content="Aamod Paudel" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Geometry of Soccer Free Kicks</title>
+<meta name="description" content="How do soccer players bend a ball around a wall? A simple, visual look at the angles, arches, circles and spirals behind Messi, Ronaldo and Roberto Carlos's free kicks." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230C1311'/%3E%3Cpath d='M10 50 Q 30 0 54 20' stroke='%23D4FF3A' stroke-width='5' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='54' cy='20' r='6' fill='%23fff'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
+<link rel="stylesheet" href="css/style.css?v=20261004c" />
+<script type="importmap">
+{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+               "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/" } }
+</script>
+</head>
+<body class="simple">
+<div class="progress" id="progress"></div>
+<nav class="nav" id="nav">
+  <a class="brand" href="#top"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M10 50 Q 30 0 54 20" stroke="currentColor" stroke-width="6" fill="none" stroke-linecap="round"/><circle cx="54" cy="20" r="7" fill="#fff"/></svg><span>Geometry of Free Kicks</span></a>
+  <div class="links">
+    <a href="#notice"><b>01</b> Notice</a>
+    <a href="#explain"><b>02</b> Explain</a>
+    <a href="#verdict"><b>✓</b> Verdict</a>
+    <a href="#create"><b>03</b> Create</a>
+    <a href="#reflect"><b>04</b> Learned</a>
+  </div>
+  <div class="mode-tabs" role="tablist" aria-label="Version">
+    <a href="index.html" class="on" role="tab" aria-selected="true">Simple</a>
+    <a href="advanced.html" role="tab" aria-selected="false">Advanced</a>
+  </div>
+</nav>
+
+<!-- ============================== HERO ============================== -->
+<header class="hero" id="top">
+  <video class="hero-video" src="media/messi_back.mp4" poster="media/messi_back.jpg" autoplay muted loop playsinline></video>
+  <div class="hero-shade"></div>
+  <svg class="hero-curve" viewBox="0 0 1200 600" preserveAspectRatio="none" aria-hidden="true">
+    <path id="heroPath" d="M 760 590 C 860 160, 1010 70, 1150 190" />
+    <circle id="heroBall" r="9" cx="760" cy="590" />
+  </svg>
+  <div class="hero-inner">
+    <p class="eyebrow">Geometry in the World: Midterm Project</p>
+    <h1>The Geometry of <span>Soccer</span> Free Kicks</h1>
+    <p class="hero-q">How do you kick a ball around a wall?</p>
+    <p class="byline">By <b>Aamod Paudel</b></p>
+    <p class="lede">In a free kick, a line of players stands between the ball and the goal. The ball has to go <em>over</em> them, come back <em>down</em> under the crossbar, and land <em>inside</em> the goal. It does all of this in about one second. This page shows the geometry that makes it possible, using shapes you already know: <strong>angles, triangles, arches and circles</strong>.</p>
+    <div class="hero-stats">
+      <div><b>9.15 m</b><span>from the ball to the wall</span></div>
+      <div><b>7.32 m × 2.44 m</b><span>size of the goal</span></div>
+      <div><b>about 1 s</b><span>time the ball is in the air</span></div>
+    </div>
+    <a class="cta" href="#notice">Let's start <span>↓</span></a>
+    <p class="mode-hint">Want all the equations? Open the <a href="advanced.html">Advanced version</a>.</p>
+  </div>
+</header>
+
+<main>
+<!-- ============================== BIG PICTURE ============================== -->
+<section class="section roadmap" id="roadmap">
+  <div class="rm-grid">
+    <div class="rm-text">
+      <p class="eyebrow">The big picture</p>
+      <h2>One question ties this whole project together</h2>
+      <p class="rm-question">How do you get a ball through a <em>window</em> that a straight line cannot reach?</p>
+      <p>From the ball, the goal is not a big open net. Most of it is hidden behind the wall. What is left is a small <strong>window</strong> with three rules: go <strong>over the wall</strong>, come back <strong>under the bar</strong>, and stay <strong>inside the posts</strong>. A straight kick breaks at least one of those rules every time.</p>
+      <p><strong>The catch:</strong> the only way through is a <strong>curve</strong>. Every idea below is one piece of the puzzle of building that curve, and at the end they come together into a <a href="#verdict">final verdict on how to score</a>.</p>
+    </div>
+    <figure class="rm-fig">
+      <svg viewBox="0 0 600 330" aria-label="The goal seen from behind the ball: the wall hides most of it, leaving a small window">
+        <rect x="0" y="0" width="600" height="330" rx="16" fill="#101c26"/>
+        <rect x="0" y="230" width="600" height="100" fill="#163222"/>
+        <rect x="140" y="70" width="320" height="160" fill="rgba(212,255,58,0.22)"/>
+        <path d="M140 230 V70 H460 V230" fill="none" stroke="#fff" stroke-width="6"/>
+        <g fill="#e9f0ec"><rect x="205" y="132" width="40" height="198" rx="18"/><rect x="250" y="128" width="40" height="202" rx="18"/><rect x="295" y="132" width="40" height="198" rx="18"/><rect x="340" y="130" width="40" height="200" rx="18"/></g>
+        <g fill="#c89878"><circle cx="225" cy="128" r="14"/><circle cx="270" cy="124" r="14"/><circle cx="315" cy="128" r="14"/><circle cx="360" cy="126" r="14"/></g>
+        <line x1="160" y1="320" x2="292" y2="160" stroke="#ff8a8a" stroke-width="3" stroke-dasharray="8 7"/>
+        <text x="292" y="166" text-anchor="middle" font-size="28" fill="#ff8a8a" font-weight="700">✗</text>
+        <circle cx="160" cy="318" r="9" fill="#fff"/><path d="M160 318 C 120 110, 280 30, 425 92" fill="none" stroke="#d4ff3a" stroke-width="4"/>
+        <circle cx="425" cy="92" r="9" fill="#fff"/>
+        <g font-size="14" fill="#e9f0ec">
+          <text x="470" y="64">rule 2: under</text><text x="470" y="82">the bar</text>
+          <text x="470" y="160">rule 3: inside</text><text x="470" y="178">the posts</text>
+          <text x="18" y="120">rule 1: over</text><text x="18" y="138">the wall</text>
+          <text x="18" y="262" fill="#ff8a8a">straight line: blocked</text>
+          <text x="440" y="300" fill="#d4ff3a">curve: gets through</text>
+        </g>
+        <text x="300" y="36" text-anchor="middle" font-size="13" fill="rgba(233,240,236,0.6)">THE KICKER'S VIEW: THE BRIGHT AREA IS THE WINDOW</text>
+      </svg>
+    </figure>
+  </div>
+  <ol class="pieces">
+    <li><a href="#angle"><b>1</b><span>Where should I kick from?</span><em>angles and circles</em></a></li>
+    <li><a href="#shadow"><b>2</b><span>Why can't I kick straight?</span><em>similar triangles</em></a></li>
+    <li><a href="#parabola"><b>3</b><span>How do I get over and down?</span><em>the parabola</em></a></li>
+    <li><a href="#circle"><b>4</b><span>How do I get around?</span><em>spin and circles</em></a></li>
+    <li><a href="#spiral"><b>5</b><span>What changes from far away?</span><em>the spiral</em></a></li>
+    <li><a href="#data"><b>6</b><span>Does it work in real games?</span><em>Messi's data</em></a></li>
+  </ol>
+</section>
+
+<!-- ============================== 01 NOTICE ============================== -->
+<section class="section" id="notice">
+  <div class="sec-head">
+    <span class="sec-num">01</span>
+    <div><p class="eyebrow">Notice</p><h2>The ball does not go in a <em>straight line</em></h2></div>
+  </div>
+
+  <div class="prose">
+    <p>Here is what I noticed. When a player takes a free kick, the wall of defenders stands <strong>right in the way</strong>. If you drew a straight line from the ball to the goal, it would hit someone's head. But great players still score. Watch from behind the kicker and you can see why: <strong>the ball curves</strong>.</p>
+    <p>I picked three famous free kicks. Each one curves in a different way. Watch them in slow motion and look at the <em>shape</em> the ball makes.</p>
+  </div>
+
+  <div class="clips">
+    <article class="clip" data-clip>
+      <div class="clip-media"><video src="media/messi_back.mp4" poster="media/messi_back.jpg" muted loop playsinline preload="metadata"></video><span class="clip-tag">Up and down</span></div>
+      <div class="clip-body">
+        <h3>Lionel Messi <small>vs Liverpool, 2019, about 32 m away</small></h3>
+        <p>The ball goes <strong>up</strong> over the wall, then <strong>drops</strong> fast into the top left corner. Think of a rainbow shape.</p>
+        <div class="speed-ctl" role="group" aria-label="Playback speed"><button data-rate="0.25">0.25×</button><button data-rate="0.5" class="on">0.5×</button><button data-rate="1">1×</button></div>
+      </div>
+    </article>
+    <article class="clip" data-clip>
+      <div class="clip-media"><video src="media/ronaldo_back.mp4" poster="media/ronaldo_back.jpg" muted loop playsinline preload="metadata"></video><span class="clip-tag">Sideways bend</span></div>
+      <div class="clip-body">
+        <h3>Cristiano Ronaldo <small>vs Spain, 2018 World Cup, about 23 m away</small></h3>
+        <p>He kicks it toward the right side of the goal, and it <strong>bends left</strong> back in. Seen from above, it curves like part of a circle.</p>
+        <div class="speed-ctl" role="group" aria-label="Playback speed"><button data-rate="0.25">0.25×</button><button data-rate="0.5" class="on">0.5×</button><button data-rate="1">1×</button></div>
+      </div>
+    </article>
+    <article class="clip" data-clip>
+      <div class="clip-media"><video src="media/carlos_back.mp4" poster="media/carlos_back.jpg" muted loop playsinline preload="metadata"></video><span class="clip-tag">Tighter and tighter</span></div>
+      <div class="clip-body">
+        <h3>Roberto Carlos <small>vs France, 1997, about 35 m away</small></h3>
+        <p>The ball looks like it will miss by a lot, then <strong>swerves back</strong> into the goal. The curve gets <strong>sharper</strong> near the end.</p>
+        <div class="speed-ctl" role="group" aria-label="Playback speed"><button data-rate="0.25">0.25×</button><button data-rate="0.5" class="on">0.5×</button><button data-rate="1">1×</button></div>
+      </div>
+    </article>
+  </div>
+
+  <div class="feature" id="trail">
+    <div class="feature-text">
+      <p class="eyebrow">My evidence</p>
+      <h3>I tracked the ball in Ronaldo's video, one frame at a time</h3>
+      <p>A video is really a flip-book of photos, 30 every second. In each photo I found the ball and marked it with a dot. Put all the dots together and you can <strong>see the path</strong> the ball took.</p>
+      <p><strong>Which shape matches the dots after the wall?</strong> Try each one.</p>
+      <div class="fit-btns" role="group" aria-label="Fit a shape">
+        <button data-fit="none" class="on">Just the dots</button>
+        <button data-fit="line">Straight line</button>
+        <button data-fit="parabola">Arch (parabola)</button>
+        <button data-fit="circle">Circle</button>
+      </div>
+      <div class="fit-readout" id="fitReadout">Press a shape. The smaller the "average miss", the better it fits.</div>
+      <p class="note">The circle fits best: it misses the dots by only about 3 pixels on average, while the straight line misses by about 11.</p>
+    </div>
+    <div class="feature-media">
+      <canvas id="trailCanvas" width="1080" height="920" aria-label="Ronaldo free kick with the tracked ball positions"></canvas>
+      <button class="replay" id="trailReplay">↻ Replay</button>
+    </div>
+  </div>
+
+  <div class="name-it">
+    <div class="name-card">
+      <p class="eyebrow">Naming it</p>
+      <h3>A curve through a <em>window</em></h3>
+      <p>Every free kick has to pass through a small "window": <strong>above</strong> the wall, then <strong>under</strong> the crossbar and <strong>between</strong> the posts. The kicker's job is to pick a curve that fits through it.</p>
+    </div>
+    <div class="questions">
+      <p class="eyebrow">My questions</p>
+      <ol>
+        <li><b>How much of the goal can the kicker actually see?</b></li>
+        <li><b>Why can't the ball just go in a straight line?</b></li>
+        <li><b>What shapes does the ball make, and why?</b></li>
+        <li><b>Can the position of the ball predict a goal?</b></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== 02 EXPLAIN ============================== -->
+<section class="section" id="explain">
+  <div class="sec-head">
+    <span class="sec-num">02</span>
+    <div><p class="eyebrow">Explain the maths</p><h2>Six pieces of one puzzle</h2></div>
+  </div>
+  <nav class="chapters" aria-label="Steps">
+    <a href="#angle">1. Seeing the goal</a>
+    <a href="#shadow">2. The wall's shadow</a>
+    <a href="#parabola">3. Gravity's arch</a>
+    <a href="#circle">4. Spin makes a circle</a>
+    <a href="#spiral">5. The spiral</a>
+    <a href="#data">6. Messi's data</a>
+  </nav>
+
+  <!-- 1 -->
+  <article class="chapter" id="angle">
+    <div class="ch-text">
+      <p class="ch-num">Piece 1 of 6: where to kick from</p>
+      <h3>How much goal can you see? It's an angle.</h3>
+      <p>Stand at the ball and point at the left post, then at the right post. The space between your two arms is an <strong>angle</strong>. A bigger angle means you can see <strong>more goal</strong> to aim at.</p>
+      <ul class="simple-list">
+        <li>Right in front of the goal: big angle. Easy.</li>
+        <li>Far away, or off to the side: small angle. Hard.</li>
+      </ul>
+      <div class="bigidea"><b>The cool part.</b> Every point on the same <strong>circle through both posts</strong> sees the goal at <strong>exactly the same angle</strong>. This is a real geometry rule called the <em>inscribed angle theorem</em>. So "equally good" spots on the pitch are not in a straight line. They sit on a <strong>circle</strong>.</div>
+      <p><strong>Try it:</strong> drag the white ball. The yellow circle passes through the ball and both posts. Move the ball along that circle and the angle stays the same.</p>
+      <div class="readout" id="angleReadout"></div>
+      <p class="bridge"><b>So far:</b> the spot decides how big the target is. <b>Next:</b> from any spot, the wall is still in the way. Why not just kick over it in a straight line? <a href="#shadow">Piece 2 ↓</a></p>
+    </div>
+    <div class="ch-fig">
+      <svg id="angleSvg" class="pitch-svg" viewBox="-30 -4 60 44" aria-label="Drag the ball to see the goal angle"></svg>
+      <div class="legend"><span><i class="sw sw-accent"></i>circle through the ball and both posts</span><span><i class="sw sw-faint"></i>other "same angle" circles</span></div>
+    </div>
+  </article>
+
+  <!-- 2 -->
+  <article class="chapter flip" id="shadow">
+    <div class="ch-text">
+      <p class="ch-num">Piece 2 of 6: why not straight</p>
+      <h3>The wall makes a "shadow", so a straight kick can't work</h3>
+      <p>Imagine shining a flashlight from the ball. The wall casts a shadow toward the goal. A straight kick that <em>just</em> clears the top of the wall keeps rising in a straight line. By the time it reaches the goal, it is <strong>way too high</strong>.</p>
+      <p>How high? The two triangles in the picture are <strong>similar</strong> (same shape, different size). So:</p>
+      <div class="formula-box">height at the goal = wall height × <span class="frac"><span>distance to goal</span><span>distance to wall</span></span></div>
+      <p><strong>Example:</strong> the wall is about 2 m tall (with a jump) and 9.15 m away. The goal is 23 m away, which is about 2.5 times farther. So the ball arrives about 2.5 × 2 = <strong>5 m high</strong>. The crossbar is only 2.44 m. Miss!</p>
+      <div class="callout"><b>So:</b> from a normal free-kick spot, a straight line <strong>cannot</strong> go over the wall and under the bar. The ball <strong>has to curve down</strong>.</div>
+      <label class="slider">Move the goal farther or closer <output id="shadowOut">23 m</output><input id="shadowD" type="range" min="12" max="38" step="0.5" value="23" /></label>
+      <p class="bridge"><b>So far:</b> the ball must curve <em>down</em>. <b>Next:</b> what can bend a ball downward? Gravity. <a href="#parabola">Piece 3 ↓</a></p>
+    </div>
+    <div class="ch-fig">
+      <svg id="shadowSvg" class="side-svg" viewBox="-1 -0.6 40 8" aria-label="Side view of a straight shot over the wall"></svg>
+      <div class="readout" id="shadowReadout"></div>
+    </div>
+  </article>
+
+  <!-- 3 -->
+  <article class="chapter" id="parabola">
+    <div class="ch-text">
+      <p class="ch-num">Piece 3 of 6: getting over and down</p>
+      <h3>Gravity bends the ball into an arch (a parabola)</h3>
+      <p>Throw anything and it travels in an arch: up, then down. In maths this arch shape is a <strong>parabola</strong>, the same shape as the graph of <span class="m">$y = -x^2$</span>. Gravity is what pulls the ball back down, so gravity gives us the "curve down" we need.</p>
+      <p>But there is a catch. Play with the sliders:</p>
+      <ul class="simple-list">
+        <li><b>Kick slowly</b> and the arch is tall and round. It can clear the wall and drop in. But a slow ball is easy for the goalkeeper.</li>
+        <li><b>Kick hard</b> and the arch gets flat. Now it either hits the wall or flies over the bar.</li>
+      </ul>
+      <div class="two-sliders">
+        <label class="slider">How hard (speed) <output id="pbVout">19 m/s</output><input id="pbV" type="range" min="12" max="36" step="0.5" value="19" /></label>
+        <label class="slider">How high (angle) <output id="pbAout">23°</output><input id="pbA" type="range" min="3" max="35" step="0.25" value="23" /></label>
+      </div>
+      <label class="slider">Distance to goal <output id="pbDout">23 m</output><input id="pbD" type="range" min="16" max="36" step="0.5" value="23" /></label>
+      <div class="callout"><b>So:</b> look at the green zone in the chart. It is every kick that works. Above about <strong>24 m/s</strong> (86 km/h) the green zone <strong>disappears</strong>. Gravity alone is not enough for a fast free kick. Players need something extra: <strong>spin</strong>.</div>
+      <p class="bridge"><b>So far:</b> gravity handles up and down, but only for slow kicks. <b>Next:</b> spin, which also lets the ball go <em>around</em> the wall. <a href="#circle">Piece 4 ↓</a></p>
+    </div>
+    <div class="ch-fig">
+      <svg id="pbSvg" class="side-svg" viewBox="-1 -0.6 40 8" aria-label="Side view of the arch"></svg>
+      <div class="readout" id="pbReadout"></div>
+      <div class="mini-chart">
+        <p class="chart-title">Which kicks work? (green = it works)</p>
+        <p class="chart-sub">Each spot is one choice of speed and angle. The circle is your current kick.</p>
+        <svg id="windowSvg" viewBox="0 0 520 260" aria-label="Chart of kicks that work"></svg>
+      </div>
+    </div>
+  </article>
+
+  <!-- 4 -->
+  <article class="chapter flip" id="circle">
+    <div class="ch-text">
+      <p class="ch-num">Piece 4 of 6: getting around</p>
+      <h3>Spin pushes the ball sideways, in a circle</h3>
+      <p>When a ball spins, it drags the air around with it. Air on one side moves faster than the other, so the ball gets <strong>pushed sideways</strong>. This is called the <strong>Magnus effect</strong>. It is the same reason a spinning ping-pong ball or baseball curves.</p>
+      <p>Here is the geometry. The push is always at a <strong>right angle (90°)</strong> to the direction the ball is going. Think of swinging a ball on a string: the string always pulls at 90° to the motion, and the ball moves in a <strong>circle</strong>. Spin does the same thing, so seen from above, the ball travels along <strong>part of a big circle</strong>.</p>
+      <div class="formula-box">how far it bends ≈ <span class="frac"><span>distance × distance</span><span>8 × radius of the circle</span></span></div>
+      <p>Because distance is <strong>multiplied by itself</strong>, doubling the distance makes the bend <strong>4 times bigger</strong>. That is why long free kicks look so much more curvy.</p>
+      <div class="two-sliders">
+        <label class="slider">Size of the circle (radius) <output id="ciRout">70 m</output><input id="ciR" type="range" min="25" max="250" step="1" value="70" /></label>
+        <label class="slider">Distance to goal <output id="ciCout">23 m</output><input id="ciC" type="range" min="16" max="36" step="0.5" value="23" /></label>
+      </div>
+      <div class="callout"><b>Remember the dots</b> from Ronaldo's video? They fit a circle best. Now we know why: spin makes circles.</div>
+      <p class="bridge"><b>So far:</b> spin makes a circle if the speed stays the same. <b>Next:</b> what happens when the air slows the ball down? <a href="#spiral">Piece 5 ↓</a></p>
+    </div>
+    <div class="ch-fig">
+      <svg id="ciSvg" class="pitch-svg" viewBox="-14 -3 28 40" aria-label="Top view of a ball curving around the wall"></svg>
+      <div class="readout" id="ciReadout"></div>
+    </div>
+  </article>
+
+  <!-- 5 -->
+  <article class="chapter" id="spiral">
+    <div class="ch-text">
+      <p class="ch-num">Piece 5 of 6: kicking from far away</p>
+      <h3>Roberto Carlos: a circle that keeps shrinking (a spiral)</h3>
+      <p>The circle idea works if the ball keeps the same speed. But air slows the ball down. The spin stays strong, so as the ball slows, the spin wins more and more, and the ball <strong>turns more sharply</strong>.</p>
+      <p>A curve that turns tighter and tighter is a <strong>spiral</strong>, like a snail shell. That is why Carlos's kick looked like it "suddenly" bent at the end. In 2010, four scientists wrote a whole research paper about this kick called <em>The spinning ball spiral</em>.</p>
+      <ul class="simple-list">
+        <li>The labels show the size of the circle the ball is following at each moment.</li>
+        <li>Watch the circle get <strong>smaller</strong> as the ball slows down. Tick the box to keep it flying and see the full spiral.</li>
+      </ul>
+      <label class="toggle"><input type="checkbox" id="spEndless" /> What if the pitch never ended? (no gravity, keep flying)</label>
+      <div class="callout"><b>So my first guess was wrong.</b> I thought free kicks would be parabolas or hyperbolas. From the side it is a squashed arch, and from above it is a piece of a <strong>spiral</strong>.</div>
+      <p class="bridge"><b>So far:</b> we know every shape the ball makes. <b>Next:</b> does any of this predict goals in real games? <a href="#data">Piece 6 ↓</a></p>
+    </div>
+    <div class="ch-fig">
+      <canvas id="spiralCanvas" width="900" height="900" aria-label="Simulated Roberto Carlos free kick seen from above"></canvas>
+      <p class="fig-note">Click the picture to replay. In the first view, sideways distances are stretched 4 times so the bend is easier to see.</p>
+    </div>
+  </article>
+
+  <div class="aside-knuckle">
+    <div>
+      <p class="eyebrow">Bonus: no spin at all</p>
+      <h3>The knuckleball: when maths can't predict it</h3>
+      <p>Some players hit the ball with <strong>almost no spin</strong>. With no spin there is no circle. Instead the air pushes the ball in small random directions, so it <strong>wobbles</strong>. Here are 12 kicks with the exact same start. They all end up in different places, so the goalkeeper can't guess where it will go.</p>
+      <button class="btn" id="knuckleAgain">Kick 12 more</button>
+    </div>
+    <canvas id="knuckleCanvas" width="900" height="520" aria-label="Twelve knuckleball paths seen from behind the kicker"></canvas>
+  </div>
+
+  <!-- 6 -->
+  <article class="chapter data" id="data">
+    <div class="ch-text wide">
+      <p class="ch-num">Piece 6 of 6: testing it on real games</p>
+      <h3>Does the spot predict a goal? I checked every Messi free kick</h3>
+      <p>I downloaded free match data from a company called StatsBomb. It lists every shot in Messi's Spanish league games from 2004 to 2021. That gave me <b id="dN">1,322</b> free kicks to study, including all of Messi's.</p>
+    </div>
+    <div class="stat-row" id="statRow"></div>
+    <div class="data-grid">
+      <figure class="chart-card">
+        <p class="chart-title">Where Messi kicked from</p>
+        <p class="chart-sub">Each dot is one free kick. The dashed lines are the "same angle" circles from Idea 1. Hover a dot.</p>
+        <svg id="mapSvg" viewBox="-30 -3 60 40" aria-label="Map of Messi free-kick locations"></svg>
+        <div class="legend"><span><i class="dot" style="background:var(--c-goal)"></i>Goal</span><span><i class="dot" style="background:var(--c-wall)"></i>Hit the wall</span><span><i class="dot" style="background:var(--c-other)"></i>Saved or missed</span></div>
+      </figure>
+      <figure class="chart-card">
+        <p class="chart-title">Where his shots reached the goal</p>
+        <p class="chart-sub">Looking at the goal from the pitch. Hover a dot.</p>
+        <svg id="faceSvg" viewBox="-6.2 -0.8 12.4 4.6" aria-label="Where Messi's shots crossed the goal line"></svg>
+        <div class="legend"><span><i class="dot" style="background:var(--c-goal)"></i>Goal</span><span><i class="dot" style="background:var(--c-other)"></i>Saved, post or missed</span></div>
+        <p class="fig-note" id="faceNote"></p>
+      </figure>
+    </div>
+    <div class="model-grid">
+      <div class="ch-text">
+        <h4>Teaching a computer the geometry</h4>
+        <p>I gave a computer just two numbers for every free kick:</p>
+        <ul class="simple-list">
+          <li><b>Distance</b> to the goal</li>
+          <li><b>Angle</b> of goal you can see (from Idea 1)</li>
+        </ul>
+        <p>Then I let it learn a rule that turns those two numbers into a <strong>chance of scoring</strong>. This is a simple kind of machine learning called <em>logistic regression</em>. The rule it learned is what you would expect: <strong>closer is better</strong> and <strong>more angle is better</strong>.</p>
+        <p>The map on the right colours every spot by that chance. Notice the coloured bands are <strong>curved like the circles</strong> from Idea 1. The computer found the geometry by itself.</p>
+        <div class="bigidea"><b>How good is it?</b> Show the computer one goal and one miss, and ask "which one was the goal?" It picks right about <strong>67% of the time</strong>. A coin flip would get 50%. So the spot matters, but it is not everything. The kicker's skill, the wall and the keeper matter too.</div>
+        <div class="callout"><b>Messi vs the computer.</b> From the spots Messi kicked from, the computer expected about <strong>37</strong> goals. Messi scored <strong>39</strong>. He beats the geometry, but only a little.</div>
+        <p class="bridge"><b>All six pieces are done.</b> Now let's put them together. <a href="#verdict">The final verdict ↓</a></p>
+      </div>
+      <figure class="chart-card">
+        <p class="chart-title">Chance of scoring from each spot</p>
+        <p class="chart-sub">Brighter = better chance. Hover the pitch.</p>
+        <svg id="heatSvg" viewBox="-30 -3 60 40" aria-label="Map of the chance of scoring"></svg>
+        <div class="ramp"><span>0%</span><i id="rampBar"></i><span id="rampMax">20%</span></div>
+      </figure>
+    </div>
+  </article>
+</section>
+
+<!-- ============================== FINAL VERDICT ============================== -->
+<section class="section final-verdict" id="verdict">
+  <div class="sec-head">
+    <span class="sec-num">✓</span>
+    <div><p class="eyebrow">Putting the pieces together</p><h2>The final verdict: how to score a free kick</h2></div>
+  </div>
+  <p class="verdict-answer">To score, stop thinking in straight lines. <span>Pick a spot with a wide angle, make the ball <em>dip</em> with gravity and topspin, make it <em>bend</em> around the wall with sidespin, and aim for the corner <em>farthest from the keeper</em>.</span></p>
+  <figure class="verdict-fig">
+    <svg id="verdictSvg" viewBox="0 0 1000 500" aria-label="The recipe drawn on Ronaldo's 2018 free kick, from above and from the side"></svg>
+    <figcaption>All six pieces on one kick: my simulation of Ronaldo's 2018 free kick against Spain.</figcaption>
+  </figure>
+  <ol class="recipe">
+    <li><b>Pick the spot.</b> Every extra degree of goal you can see raises your odds of scoring by about 8%, and every metre closer raises them by about 12%. Central spots, on the bigger "same angle" circles, are best. <a href="#angle">Piece 1</a></li>
+    <li><b>Forget the straight line.</b> From 23 m, a straight kick that clears the wall reaches the goal about 5 m high, double the height of the bar. <a href="#shadow">Piece 2</a></li>
+    <li><b>Make it dip.</b> Gravity alone only works below about 24 m/s, which is too slow to beat a keeper. Topspin adds the extra drop that brings a fast ball down under the bar. <a href="#parabola">Piece 3</a></li>
+    <li><b>Make it bend.</b> Sidespin turns the path into part of a circle. The bend grows with the distance squared: about 1 m from 23 m, about 2.3 m from 35 m. <a href="#circle">Piece 4</a></li>
+    <li><b>From far away, let the spiral surprise the keeper.</b> As the ball slows down, the curve tightens at the very end, like Roberto Carlos in 1997. <a href="#spiral">Piece 5</a></li>
+    <li><b>Aim for the corners.</b> 37 of Messi's 39 free-kick goals went into the outer parts of the goal, the places farthest from where the keeper stands. <a href="#data">Piece 6</a></li>
+  </ol>
+  <div class="catch">
+    <p class="eyebrow">The catch</p>
+    <p>Even perfect geometry is not a guarantee. Messi, maybe the best free-kick taker ever, scored <strong>39 of 420</strong> (about 1 in 11), and the wall blocked <strong>125</strong> of them. In my simulation, only about <strong>4% of random kicks</strong> from Ronaldo's spot score. Geometry tells you <em>which curves are possible</em>. Skill is hitting one of them, under pressure, in about one second.</p>
+  </div>
+</section>
+
+<!-- ============================== 03 CREATE ============================== -->
+<section class="section" id="create">
+  <div class="sec-head">
+    <span class="sec-num">03</span>
+    <div><p class="eyebrow">Create</p><h2>Take your own free kick</h2></div>
+  </div>
+  <div class="prose">
+    <p>The verdict is a recipe, so I built a way to <strong>test it</strong>: a <strong>3D free-kick game</strong> that uses all six pieces. Gravity makes the arch, spin makes the circle, and the air slows the ball down. There is a wall that jumps and a goalkeeper who can't see the ball until it passes the wall. Follow the recipe and you will score more often. Ignore it and the wall wins.</p>
+    <ol class="how-to">
+      <li><b>Pick a famous kick</b> to watch it again, or drag the ball on the small map.</li>
+      <li><b>Change the sliders</b>: how hard, how high, where you aim, and how much spin.</li>
+      <li><b>Press Kick</b>, and try different cameras to see the curve from above or from the side.</li>
+    </ol>
+  </div>
+
+  <div class="lab" id="lab">
+    <div class="lab-stage">
+      <canvas id="labCanvas" aria-label="3D free kick game"></canvas>
+      <div class="lab-hud">
+        <div class="verdict" id="kickResult">Press <b>Kick</b></div>
+        <div class="hud-stats" id="hudStats"></div>
+      </div>
+      <div class="cam-btns" role="group" aria-label="Camera">
+        <button data-cam="behind" class="on">Behind</button><button data-cam="side">Side</button><button data-cam="top">Above</button><button data-cam="keeper">Keeper</button><button data-cam="follow">Ball cam</button>
+      </div>
+      <p class="lab-tip">Drag to look around, scroll to zoom</p>
+    </div>
+    <aside class="lab-panel">
+      <div class="presets" role="group" aria-label="Famous kicks">
+        <button data-preset="messi">Messi 2019</button>
+        <button data-preset="ronaldo">Ronaldo 2018</button>
+        <button data-preset="carlos">Carlos 1997</button>
+        <button data-preset="knuckle">Knuckleball</button>
+      </div>
+      <div class="minimap-wrap">
+        <p class="panel-label">Where is the ball? <span>(drag it)</span></p>
+        <canvas id="miniMap" width="520" height="330" aria-label="Drag to place the ball"></canvas>
+        <div class="pos-read" id="posRead"></div>
+      </div>
+      <div class="ctrls">
+        <label>How hard <output data-for="speed"></output><input type="range" id="kSpeed" min="15" max="40" step="0.5" /></label>
+        <label>How high <output data-for="elev"></output><input type="range" id="kElev" min="0" max="35" step="0.25" /></label>
+        <label>Aim left / right <output data-for="aim"></output><input type="range" id="kAim" min="-25" max="25" step="0.25" /></label>
+        <label>Sideways spin (bend) <output data-for="side"></output><input type="range" id="kSide" min="-20" max="20" step="0.5" /></label>
+        <label>Top spin (dip) <output data-for="top"></output><input type="range" id="kTop" min="-6" max="10" step="0.5" /></label>
+        <label>Players in the wall <output data-for="wall"></output><input type="range" id="kWall" min="0" max="6" step="1" value="4" /></label>
+        <label class="check"><input type="checkbox" id="kKnuckle" /> Knuckleball wobble</label>
+        <label class="check"><input type="checkbox" id="kGhost" checked /> Keep old paths on screen</label>
+      </div>
+      <button class="kick" id="kickBtn">Kick ⚽</button>
+      <button class="btn ghost" id="clearBtn">Clear paths</button>
+    </aside>
+  </div>
+
+  <div class="art" id="art">
+    <div class="art-text">
+      <p class="eyebrow">Create, part two</p>
+      <h3>The Shape of Possible</h3>
+      <p>I asked my game a question no player can answer: <em>from this spot, what are <strong>all</strong> the ways to score?</em> The computer tries thousands of random kicks, throws away the misses, and draws every goal on top of each other.</p>
+      <p>The picture that appears is the <strong>shape of every possible goal</strong>. It is the final verdict drawn by a computer: the bright paths dip under the bar, bend around the wall and head for a corner. The empty gaps are where the wall and the goalkeeper block the way.</p>
+      <div class="presets small" role="group" aria-label="Spot">
+        <button data-spot="ronaldo" class="on">Ronaldo's spot (23 m)</button>
+        <button data-spot="messi">Messi's spot (32 m)</button>
+        <button data-spot="carlos">Carlos's spot (35 m)</button>
+      </div>
+      <div class="art-stats" id="artStats"></div>
+      <button class="btn" id="artSave">Download the poster</button>
+      <h4>Why I made it this way</h4>
+      <ul class="choices">
+        <li><b>Pink and blue.</b> Pink paths bend left and blue paths bend right. You can see two groups: go around the wall on one side, or the other.</li>
+        <li><b>See-through lines.</b> Each path is very faint, so bright areas are where <em>lots</em> of goals pass.</li>
+        <li><b>Two views.</b> From above you see the circles (Idea 4). From behind you see the window over the wall and under the bar (Idea 2).</li>
+        <li><b>Farther = fewer.</b> From 23 m about 4% of random kicks score. From 35 m it drops below 1%. The geometry gets harder with distance.</li>
+      </ul>
+      <p class="wonder">What I hope you wonder: <em>if there are thousands of ways to score, why do so few players find even one?</em></p>
+    </div>
+    <div class="art-frame">
+      <canvas id="artCanvas" width="1200" height="1500" aria-label="Poster of every simulated goal"></canvas>
+      <div class="art-progress" id="artProgress"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== 04 REFLECT ============================== -->
+<section class="section" id="reflect">
+  <div class="sec-head">
+    <span class="sec-num">04</span>
+    <div><p class="eyebrow">What I learned</p><h2>Mistakes that helped me</h2></div>
+  </div>
+  <div class="reflect-grid">
+    <div class="r-card"><b>My first guess was wrong.</b><p>I thought the ball would follow a parabola or a hyperbola, because those are the curves we learn about. It turned out to be an uneven arch from the side and a spiral from above. Being wrong made me ask a better question: <em>what is pushing the ball?</em></p></div>
+    <div class="r-card"><b>The simple model broke, and that was useful.</b><p>Gravity alone (the parabola) only works for slow kicks. That "failure" explained why players spin the ball at all.</p></div>
+    <div class="r-card"><b>Measuring a video is tricky.</b><p>My first try at finding the ball also picked up white shirts. I had to search only near the ball's path. A video is a flat picture of a 3D world, so I trust the shape of the curve more than exact distances.</p></div>
+    <div class="r-card"><b>Maths explains a lot, not everything.</b><p>The spot predicts goals better than a coin flip, but not perfectly. Skill, the wall and luck still matter. Messi only beat the geometry by about 2 goals.</p></div>
+  </div>
+
+  <div class="gloss" id="glossary">
+    <h3>Words to know</h3>
+    <div class="gloss-grid">
+      <div class="gloss-card"><b>Angle</b><p>How far apart two lines open from a point. Here: how much goal you can see from the ball.</p></div>
+      <div class="gloss-card"><b>Similar triangles</b><p>Triangles with the same shape but different sizes. Their sides grow by the same scale factor.</p></div>
+      <div class="gloss-card"><b>Parabola</b><p>The U-shaped (or arch-shaped) curve of a thrown object, like the graph of y = x².</p></div>
+      <div class="gloss-card"><b>Radius</b><p>The distance from the centre of a circle to its edge. A big radius means a gentle curve.</p></div>
+      <div class="gloss-card"><b>Inscribed angle theorem</b><p>All points on a circle "see" the same chord (here, the goal) at the same angle.</p></div>
+      <div class="gloss-card"><b>Magnus effect</b><p>A spinning ball gets pushed sideways by the air. It makes the ball curve.</p></div>
+      <div class="gloss-card"><b>Spiral</b><p>A curve that keeps turning tighter, like a snail shell.</p></div>
+      <div class="gloss-card"><b>Logistic regression</b><p>A simple computer method that turns numbers into a chance between 0% and 100%.</p></div>
+    </div>
+  </div>
+
+  <div class="prose">
+    <h3>Why this matters</h3>
+    <p>Real soccer clubs use this same geometry, like distance and angle to the goal, to decide where players should shoot from. Ball makers test new balls because a smoother ball wobbles more. And the same spin effect is used to help push some modern cargo ships, which saves fuel. Geometry is not only in textbooks. It is in every curving free kick.</p>
+    <p class="mode-hint">Want the full equations, the physics and the model details? Read the <a href="advanced.html">Advanced version</a>.</p>
+  </div>
+  <div class="sources">
+    <h4>Sources and credits</h4>
+    <ul>
+      <li>Match data: StatsBomb Open Data (La Liga 2004/05 to 2020/21), github.com/statsbomb/open-data.</li>
+      <li>G. Dupeux, A. Le Goff, D. Quéré, C. Clanet (2010). <em>The spinning ball spiral.</em> New Journal of Physics 12, 093004.</li>
+      <li>Video clips: short parts of TV broadcasts (BT Sport 2019, FIFA World Cup 2018, Sky Sports 1997), used for school, non-commercial commentary. All rights belong to the broadcasters.</li>
+      <li>Built with HTML, CSS, JavaScript, Three.js (3D) and KaTeX (maths). Ball tracking and the model were made in Python.</li>
+    </ul>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <p><b>The Geometry of Soccer Free Kicks</b>, by Aamod Paudel<br><span>Geometry in the World midterm project, Fall 2026</span></p>
+  <a href="advanced.html">Advanced version →</a>
+</footer>
+
+<div class="tip" id="tip" role="tooltip"></div>
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script type="module" src="js/main.js?v=20261004c"></script>
+</body>
+</html>

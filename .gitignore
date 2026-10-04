@@ -1,0 +1,6 @@
+# full-length source clips stay local (only short excerpts in media/ are published)
+clips/
+data_prep/freekicks_raw.json
+__pycache__/
+node_modules/
+.DS_Store
